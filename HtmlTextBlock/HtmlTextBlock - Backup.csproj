@@ -4,14 +4,9 @@
 		<UseWPF>true</UseWPF>
 		<Authors>Aqi Tech Tips</Authors>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<PackageId>AQI.HtmlTextBlock</PackageId>
 		<PackageLicenseExpression></PackageLicenseExpression>
-		<PackageProjectUrl>https://github.com/aqibbanday/HtmlTextBlock</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/aqibbanday/HtmlTextBlock</RepositoryUrl>
-		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-		<PackageTags>HtmlTextBlock</PackageTags>
-		<Title>HtmlTextBlock</Title>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
 		<DebugType>full</DebugType>
@@ -20,10 +15,6 @@
 		<DebugType>pdbonly</DebugType>
 	</PropertyGroup>
 	<ItemGroup>
-		<None Include="..\LICENSE.md">
-			<Pack>True</Pack>
-			<PackagePath></PackagePath>
-		</None>
 		<None Include="Defines\DependencyProperty.cs" />
 		<None Include="Defines\Header.cs" />
 		<None Include="Defines\PropertyList.cs" />

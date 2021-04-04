@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections;
 
-namespace HtmlTextBlock
+namespace AqiTechTips
 {
 	public class HtmlTagNode : IEnumerable
 	{

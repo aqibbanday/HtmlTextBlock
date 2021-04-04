@@ -10,7 +10,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace HtmlTextBlock
+namespace AqiTechTips
 {
 	/// <summary>
 	/// Represent owner of all HtmlTag.

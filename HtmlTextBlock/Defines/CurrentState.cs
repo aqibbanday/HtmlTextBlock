@@ -11,7 +11,7 @@ using System.Windows.Media;
 #endif
 
 
-namespace HtmlTextBlock
+namespace AqiTechTips
 {
 
     public class CurrentStateType

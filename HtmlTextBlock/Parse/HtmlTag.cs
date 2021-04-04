@@ -17,7 +17,7 @@ using System.Text;
 //using System.Drawing;
 using System.Text;
 
-namespace HtmlTextBlock
+namespace AqiTechTips
 {
 	/// <summary>
 	/// Represent an element Tag in Html code

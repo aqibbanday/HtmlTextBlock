@@ -1,10 +1,11 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:bc="http://www.quickzip.org/BaseControls" x:Class="TestApp.WPF.MainWindow"
+    xmlns:ht="clr-namespace:AqiTechTips;assembly=HtmlTextBlock"
+    x:Class="TestApp.WPF.MainWindow"
         Title="MainWindow" Height="250" Width="450">
     <DockPanel>
-        <bc:HtmlTextBlock x:Name="htmlTextBlock" HorizontalAlignment="Left" TextWrapping="Wrap" 
+        <ht:HtmlTextBlock x:Name="htmlTextBlock" HorizontalAlignment="Left" TextWrapping="Wrap" 
                                      Html="{Binding Text, ElementName=tb}"
                                      DockPanel.Dock="Top"
                                      />

@@ -14,7 +14,7 @@ using Windows.UI;
 using System.Windows.Media;
 #endif
 
-namespace HtmlTextBlock
+namespace AqiTechTips
 {
 
     /// <summary>

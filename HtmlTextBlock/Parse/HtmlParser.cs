@@ -11,7 +11,7 @@ using System;
 using System.IO;
 using System.Text;
 
-namespace HtmlTextBlock
+namespace AqiTechTips
 {
 	/// <summary>
     /// MiniHtml internal Html Paraser, used since D7 version of TQzHtmlLabel2,

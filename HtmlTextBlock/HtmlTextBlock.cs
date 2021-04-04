@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 using System.Windows;
-using HtmlTextBlock;
+using AqiTechTips;
 using System.IO;
 
 #if NETFX_CORE
@@ -15,7 +15,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 #endif
 
-namespace HtmlTextBlock
+namespace AqiTechTips
 {
     public class HtmlTextBlock : TextBlock 
     {

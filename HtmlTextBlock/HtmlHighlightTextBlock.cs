@@ -5,10 +5,10 @@ using System.Text;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows;
-using HtmlTextBlock;
+using AqiTechTips;
 using System.IO;
 
-namespace HtmlTextBlock
+namespace AqiTechTips
 {
     public class HtmlHighlightTextBlock : TextBlock
     {
