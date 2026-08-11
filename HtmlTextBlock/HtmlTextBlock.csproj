@@ -24,18 +24,5 @@
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
-		<None Include="Defines\DependencyProperty.cs" />
-		<None Include="Defines\Header.cs" />
-		<None Include="Defines\PropertyList.cs" />
-		<None Include="Defines\Stylelist.cs" />
-		<None Include="Defines\Utils.cs" />
-	</ItemGroup>
-	<ItemGroup>
-		<Compile Remove="Defines\DependencyProperty.cs" />
-		<Compile Remove="Defines\Header.cs" />
-		<Compile Remove="Defines\PropertyList.cs" />
-		<Compile Remove="Defines\Stylelist.cs" />
-		<Compile Remove="Defines\Utils.cs" />
-		<Compile Remove="RT\ColorConverter.cs" />
 	</ItemGroup>
 </Project>
