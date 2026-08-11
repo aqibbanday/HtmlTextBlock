@@ -43,6 +43,35 @@ namespace AqiTechTips
         	previousNode = previousNode.Add(aTag);
         }
         /// <summary>
+        /// Finds the next occurrence of endBracket starting from start, skipping over any
+        /// single- or double-quoted attribute value so a literal endBracket character inside
+        /// a quoted value (e.g. title="5 &gt; 3") doesn't end the tag early. Returns -1 if not found.
+        /// </summary>
+        private static int FindTagEnd(string input, int start, char endBracket)
+        {
+            bool inQuote = false;
+            char quoteChar = '\0';
+            for (int i = start; i < input.Length; i++)
+            {
+                char c = input[i];
+                if (inQuote)
+                {
+                    if (c == quoteChar)
+                        inQuote = false;
+                }
+                else if ((c == '"') || (c == '\''))
+                {
+                    inQuote = true;
+                    quoteChar = c;
+                }
+                else if (c == endBracket)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+        /// <summary>
         /// Reads the next tag starting from <paramref name="pos"/> in <paramref name="input"/>.
         /// Auto detects whether the tag uses HTML angle brackets (&lt;b&gt;) or legacy square
         /// brackets ([b]), whichever opens first from the current position. Advances
@@ -63,9 +92,9 @@ namespace AqiTechTips
             }
 
             Int32 pos1 = input.IndexOf(startBracket, pos);
-            Int32 pos2 = input.IndexOf(endBracket, pos);
+            Int32 pos2 = (pos1 == -1) ? -1 : FindTagEnd(input, pos1 + 1, endBracket);
 
-            if ((pos1 == -1) || (pos2 == -1) || (pos2 < pos1))
+            if ((pos1 == -1) || (pos2 == -1))
             {
                 beforeTag = input.Substring(pos);
                 tagName = "";

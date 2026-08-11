@@ -95,6 +95,26 @@ namespace HtmlTextBlock.Tests
             Assert.Equal("color:red;text-decoration:underline line-through", span["style"]);
         }
 
+        [Theory]
+        [InlineData("<a title=\"5 > 3 is true\" href=\"https://example.com\">link</a> after")]
+        [InlineData("<a title='5 > 3 is true' href='https://example.com'>link</a> after")]
+        public void GreaterThanInsideQuotedAttributeValueDoesNotTruncateTag(string html)
+        {
+            var tags = Parse(html);
+            var names = tags.Select(t => t.Name).ToList();
+            Assert.Equal(new[] { "a", "text", "/a", "text" }, names);
+            Assert.Equal("https://example.com", tags.First(t => t.Name == "a")["href"]);
+            Assert.Equal("link", tags.First(t => t.Name == "text")["value"]);
+        }
+
+        [Fact]
+        public void UnterminatedQuoteFallsBackToPlainTextInsteadOfCorrupting()
+        {
+            var tags = Parse("<a title=\"unterminated quote href=\"https://example.com\">link</a> after");
+            Assert.Single(tags);
+            Assert.Equal("text", tags[0].Name);
+        }
+
         [Fact]
         public void BooleanAttributeWithoutEqualsSignDefaultsToTrue()
         {
