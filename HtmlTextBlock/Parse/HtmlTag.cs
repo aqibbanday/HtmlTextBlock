@@ -12,7 +12,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
 
 namespace AqiTechTips
@@ -24,11 +23,35 @@ namespace AqiTechTips
 	{
         private static IParamParser HtmlAttributeParser = new ParamParser(new HtmlAttributeStringSerializer());
 
-        private string name;                                     //HtmlTag name without <>        
+        ///<summary> Maps a BuiltinTags Html name to its array index, built once and reused for every lookup. </summary>
+        private static readonly Dictionary<string, int> tagIndexByName = BuildTagIndex();
+
+        private static Dictionary<string, int> BuildTagIndex()
+        {
+            Dictionary<string, int> dict = new Dictionary<string, int>(Defines.BuiltinTags.Length);
+            for (int i = 0; i < Defines.BuiltinTags.Length; i++)
+                dict[Defines.BuiltinTags[i].Html] = i;
+            return dict;
+        }
+
+        private string name;                                     //HtmlTag name without <>
         private Dictionary<string, string> variables = new Dictionary<string, string>();     //Variable List and values
-            
+        private int? id;                                          //Cached ID, name never changes after construction.
+
         ///<summary> Gets HtmlTag ID in BuiltInTags. (without <>) </summary>
-        internal int ID { get { return Defines.BuiltinTags.ToList().FindIndex(tagInfo => tagInfo.Html.Equals(name.TrimStart('/'))); } }
+        internal int ID
+        {
+            get
+            {
+                if (!id.HasValue)
+                {
+                    string lookupName = (name.Length > 0 && name[0] == '/') ? name.Substring(1) : name;
+                    int found;
+                    id = tagIndexByName.TryGetValue(lookupName, out found) ? found : -1;
+                }
+                return id.Value;
+            }
+        }
         ///<summary> Gets HtmlTag Level in BuiltInTags. (without <>) </summary>
         internal Int32 Level { get { if (ID == -1) return 0; else return Defines.BuiltinTags[ID].tagLevel; } }
         

@@ -73,12 +73,16 @@ namespace AqiTechTips
 		public List<HtmlTag> ToHtmlTagList()
 		{
 			List<HtmlTag> retVal = new List<HtmlTag>();
-			retVal.Add(Tag);
-			
-			foreach (HtmlTagNode subnode in this)
-				retVal.AddRange(subnode.ToHtmlTagList());
-			
+			CollectTags(retVal);
 			return retVal;
+		}
+
+		private void CollectTags(List<HtmlTag> target)
+		{
+			target.Add(Tag);
+
+			foreach (HtmlTagNode subnode in this)
+				subnode.CollectTags(target);
 		}
 		
 		public override string ToString()
