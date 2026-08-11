@@ -9,9 +9,9 @@
                                      Html="{Binding Text, ElementName=tb}"
                                      DockPanel.Dock="Top"
                                      />
-        <TextBlock Text="[b] [i] [u] [a href=xx] [br] supported." DockPanel.Dock="Bottom" />
+        <TextBlock Text="&lt;b&gt; &lt;i&gt; &lt;u&gt; &lt;a href=xx&gt; &lt;br&gt; supported (legacy [b][/b] square-bracket tags also still work)." DockPanel.Dock="Bottom" />
         <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"
-            x:Name="tb" Text="The [i][u]quick brown fox[/i][/u] jumps over the [b]lazy dog[/b]" />
+            x:Name="tb" Text="The &lt;i&gt;&lt;u&gt;quick brown fox&lt;/u&gt;&lt;/i&gt; jumps over the &lt;b&gt;lazy dog&lt;/b&gt;" />
     </DockPanel>
 
 

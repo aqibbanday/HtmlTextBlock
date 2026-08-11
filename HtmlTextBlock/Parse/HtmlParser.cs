@@ -30,28 +30,21 @@ namespace AqiTechTips
         	tree = aTree;
         }
         	        
-        /// <summary> Return true if both < and > found in input. </summary>        
-        private bool haveClosingTag(string input)
-        {
-            if ((input.IndexOf('[') != -1) && (input.IndexOf(']') != -1))
-                return false;
-            return true;
-        }
-        /// <summary> Add a Non TextTag to Tag List </summary>        
+        /// <summary> Add a Non TextTag to Tag List </summary>
         internal void addTag(HtmlTag aTag)
         {
 //            HtmlTagNode newNode = new HtmlTagNode(
         	if (previousNode == null) { previousNode = tree; }
-            
+
         	while (!previousNode.CanAdd(aTag))
         		previousNode = previousNode.Parent;
-        	        	        	
+
         	previousNode = previousNode.Add(aTag);
         }
         /// <summary>
         /// Parse a string and return text before a tag, the tag and it's variables, and the string after that tag.
         /// </summary>
-        private static void readNextTag(string s, ref string beforeTag, ref string afterTag, ref string tagName, 
+        private static void readNextTag(string s, ref string beforeTag, ref string afterTag, ref string tagName,
                                           ref string tagVars, char startBracket, char endBracket)
         {
             Int32 pos1 = s.IndexOf(startBracket);
@@ -92,29 +85,53 @@ namespace AqiTechTips
                     tagName = "";
                     tagVars = "";
                 }
+                else if (tagName.StartsWith("!"))
+                {
+                    //Doctype or other declaration - ignore.
+                    tagName = "";
+                    tagVars = "";
+                }
+                else if (tagName.EndsWith("/") && (tagName.Length > 1))
+                {
+                    //Self closing tag without a space before the slash, e.g. <br/>.
+                    tagName = tagName.Substring(0, tagName.Length - 1);
+                }
 
-            }    
-        }     
+            }
+        }
         /// <summary>
         /// Parse a string and return text before a tag, the tag and it's variables, and the string after that tag.
+        /// Auto detects whether the next tag uses HTML angle brackets (&lt;b&gt;) or legacy square brackets ([b]),
+        /// whichever opens first in the remaining input.
         /// </summary>
        	private static void readNextTag(string s, ref string beforeTag, ref string afterTag, ref string tagName, ref string tagVars)
        	{
-       		HtmlParser.readNextTag(s, ref beforeTag, ref afterTag, ref tagName, ref tagVars, '[',']');
+            Int32 angleBracketPos = s.IndexOf('<');
+            Int32 squareBracketPos = s.IndexOf('[');
+
+            char startBracket = '<';
+            char endBracket = '>';
+            if ((squareBracketPos != -1) && ((angleBracketPos == -1) || (squareBracketPos < angleBracketPos)))
+            {
+                startBracket = '[';
+                endBracket = ']';
+            }
+
+       		HtmlParser.readNextTag(s, ref beforeTag, ref afterTag, ref tagName, ref tagVars, startBracket, endBracket);
        	}
         /// <summary>
         /// Recrusive paraser.
-        /// </summary>        
+        /// </summary>
         private void parseHtml(ref string s)
         {
             string beforeTag="", afterTag="", tagName="", tagVar="";
             readNextTag(s, ref beforeTag, ref afterTag, ref tagName, ref tagVar);
-            
+
             if (beforeTag != "")
             	addTag(new HtmlTag(beforeTag));   		//Text
             if (tagName != "")
             	addTag(new HtmlTag(tagName, tagVar));
-            
+
             s = afterTag;
         }
         /// <summary>

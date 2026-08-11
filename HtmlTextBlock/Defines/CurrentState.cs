@@ -1,7 +1,6 @@
 using System;
 using System.Text;
-//using System.Drawing;
-//using System.Windows.Forms;
+using System.Diagnostics;
 using System.Collections.Generic;
 
 #if NETFX_CORE
@@ -77,12 +76,19 @@ namespace AqiTechTips
                     case "font" :
                         if (aTag.Contains("color"))
                             try { foreground = (Color)ColorConverter.ConvertFromString(aTag["color"]); }
-                            catch { foreground = Colors.Black; }
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine("CurrentState - invalid font color '" + aTag["color"] + "': " + ex.Message);
+                                foreground = Colors.Black;
+                            }
                         if (aTag.Contains("face"))
                             font = aTag["face"];
                         if (aTag.Contains("size"))
                             try { fontSize= Double.Parse(aTag["size"]); }
-                            catch { };
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine("CurrentState - invalid font size '" + aTag["size"] + "': " + ex.Message);
+                            }
                         break;
                 }
         }

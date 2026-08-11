@@ -61,7 +61,7 @@ namespace AqiTechTips
                         }
                     }
                     else
-                        retVal = new Run(aTag["value"]);
+                        retVal = new Run(HtmlEntity.Decode(aTag["value"]));
 
                     if (currentState.SubScript) retVal.SetValue(Typography.VariantsProperty, FontVariants.Subscript);
                     if (currentState.SuperScript) retVal.SetValue(Typography.VariantsProperty, FontVariants.Superscript);
@@ -74,7 +74,7 @@ namespace AqiTechTips
 
                     if (currentState.Font != null)
                         try { retVal.FontFamily = new FontFamily(currentState.Font); }
-                        catch { } //Font name not found...
+                        catch (Exception ex) { Debug.WriteLine("HtmlUpdater - invalid font '" + currentState.Font + "': " + ex.Message); }
 
                     if (currentState.FontSize.HasValue)
                         retVal.FontSize = currentState.FontSize.Value;
@@ -101,8 +101,9 @@ namespace AqiTechTips
                 {
                     link.NavigateUri = new Uri(currentState.HyperLink);
                 }
-                catch
+                catch (Exception ex)
                 {
+                    Debug.WriteLine("HtmlUpdater - invalid hyperlink '" + currentState.HyperLink + "': " + ex.Message);
                     link.NavigateUri = null;
                 }
                 retVal = link;

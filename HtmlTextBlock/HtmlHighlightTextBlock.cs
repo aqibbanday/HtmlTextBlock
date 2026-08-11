@@ -41,7 +41,7 @@ namespace AqiTechTips
                 int idx = html.IndexOf(Highlight, StringComparison.InvariantCultureIgnoreCase);
                 while (idx != -1)
                 {
-                    html = String.Format("{0}[b]{1}[/b]{2}",
+                    html = String.Format("{0}<b>{1}</b>{2}",
                         html.Substring(0, idx), html.Substring(idx, Highlight.Length), html.Substring(idx + Highlight.Length));
                     idx = html.IndexOf(Highlight, idx + 7 + Highlight.Length, StringComparison.InvariantCultureIgnoreCase);
                 }
