@@ -32,11 +32,12 @@ namespace Cofe.Core.Utils
                 Int32 space = working.IndexOf(' ');
                 if (space == -1) { varName = working; working = ""; }
                 else { varName = working.Substring(0, space); working = working.Substring(space + 1); }
+                varName = varName.ToLowerInvariant();
                 varValue = "TRUE";
                 return;
             }
 
-            varName = working.Substring(0, pos1).Trim();
+            varName = working.Substring(0, pos1).Trim().ToLowerInvariant();
             String rest = working.Substring(pos1 + 1).TrimStart();
 
             if ((rest.Length > 0) && ((rest[0] == '"') || (rest[0] == '\'')))

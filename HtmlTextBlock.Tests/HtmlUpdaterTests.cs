@@ -252,5 +252,63 @@ namespace HtmlTextBlock.Tests
                 Assert.NotNull(tb);
             });
         }
+
+        [Fact]
+        public void BindingTagWithNullPropertyValueRendersEmptyInsteadOfThrowing()
+        {
+            StaThread.Run(() =>
+            {
+                var tree = new HtmlTagTree();
+                new HtmlParser(tree).Parse(new StringReader("Value: <binding path=\"Nothing\" />"));
+                var tb = new TextBlock { DataContext = new { Nothing = (string?)null } };
+                new HtmlUpdater(tb).Update(tree);
+                Assert.Equal("Value: ", RenderedText(tb));
+            });
+        }
+
+        [Theory]
+        [InlineData("<A HREF=\"https://example.com\">link</A>")]
+        [InlineData("<a HREF=\"https://example.com\">link</a>")]
+        public void UppercaseOrMixedCaseAttributeNamesStillApply(string html)
+        {
+            StaThread.Run(() =>
+            {
+                var tb = Render(html);
+                var link = Assert.IsType<Hyperlink>(Assert.Single(tb.Inlines));
+                Assert.Equal(new Uri("https://example.com"), link.NavigateUri);
+            });
+        }
+
+        [Fact]
+        public void UppercaseFontColorAttributeStillApplies()
+        {
+            StaThread.Run(() =>
+            {
+                var tb = Render("<FONT COLOR=\"red\">red?</FONT>");
+                var run = Assert.IsType<Run>(Assert.Single(tb.Inlines));
+                Assert.Equal(Colors.Red, ((SolidColorBrush)run.Foreground).Color);
+            });
+        }
+
+        [Fact]
+        public void AstralPlaneNumericEntityDecodesAsSurrogatePairInsteadOfTruncating()
+        {
+            StaThread.Run(() =>
+            {
+                var tb = Render("grinning: &#128512; done");
+                Assert.Equal("grinning: " + char.ConvertFromUtf32(0x1F600) + " done", RenderedText(tb));
+            });
+        }
+
+        [Fact]
+        public void PointFontSizeConvertsToDeviceIndependentPixels()
+        {
+            StaThread.Run(() =>
+            {
+                var tb = Render("<span style=\"font-size:12pt\">x</span>");
+                var run = Assert.IsType<Run>(Assert.Single(tb.Inlines));
+                Assert.Equal(16.0, run.FontSize, 3);
+            });
+        }
     }
 }

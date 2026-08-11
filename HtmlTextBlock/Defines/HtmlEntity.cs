@@ -33,10 +33,10 @@ namespace AqiTechTips
                     if (semi != -1 && semi - i <= 12)
                     {
                         string entity = input.Substring(i + 1, semi - i - 1);
-                        char? decoded = DecodeEntity(entity);
-                        if (decoded.HasValue)
+                        string decoded = DecodeEntity(entity);
+                        if (decoded != null)
                         {
-                            result.Append(decoded.Value);
+                            result.Append(decoded);
                             i = semi + 1;
                             continue;
                         }
@@ -48,7 +48,7 @@ namespace AqiTechTips
             return result.ToString();
         }
 
-        private static char? DecodeEntity(string entity)
+        private static string DecodeEntity(string entity)
         {
             if (entity.Length == 0)
                 return null;
@@ -60,7 +60,7 @@ namespace AqiTechTips
                     int code = (entity.Length > 1 && (entity[1] == 'x' || entity[1] == 'X'))
                         ? Convert.ToInt32(entity.Substring(2), 16)
                         : Convert.ToInt32(entity.Substring(1));
-                    return (char)code;
+                    return char.ConvertFromUtf32(code);
                 }
                 catch
                 {
@@ -70,7 +70,7 @@ namespace AqiTechTips
 
             char value;
             if (named.TryGetValue(entity, out value))
-                return value;
+                return value.ToString();
 
             return null;
         }

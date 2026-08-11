@@ -57,7 +57,10 @@ namespace AqiTechTips
                             object obj = textBlock.DataContext;
                             PropertyInfo pi = obj.GetType().GetProperty(aTag["path"]);
                             if (pi != null && pi.CanRead)
-                                retVal = new Run(pi.GetValue(obj, null).ToString());
+                            {
+                                object value = pi.GetValue(obj, null);
+                                retVal = new Run(value != null ? value.ToString() : "");
+                            }
                         }
                     }
                     else

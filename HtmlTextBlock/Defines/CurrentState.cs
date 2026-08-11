@@ -216,7 +216,7 @@ namespace AqiTechTips
                 if (value.EndsWith("px"))
                     return Double.Parse(value.Substring(0, value.Length - 2));
                 if (value.EndsWith("pt"))
-                    return Double.Parse(value.Substring(0, value.Length - 2));
+                    return Double.Parse(value.Substring(0, value.Length - 2)) * 96.0 / 72.0; //pt -> device-independent pixels
                 return Double.Parse(value);
             }
             catch (Exception ex)

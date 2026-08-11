@@ -38,14 +38,23 @@ namespace AqiTechTips
         {
             if (!String.IsNullOrEmpty(Highlight))
             {
-                int idx = html.IndexOf(Highlight, StringComparison.InvariantCultureIgnoreCase);
+                int searchFrom = 0;
+                int idx = html.IndexOf(Highlight, searchFrom, StringComparison.InvariantCultureIgnoreCase);
                 while (idx != -1)
                 {
-                    html = String.Format("{0}<b>{1}</b>{2}",
-                        html.Substring(0, idx), html.Substring(idx, Highlight.Length), html.Substring(idx + Highlight.Length));
-                    idx = html.IndexOf(Highlight, idx + 7 + Highlight.Length, StringComparison.InvariantCultureIgnoreCase);
+                    if (IsInsideTag(html, idx))
+                    {
+                        searchFrom = idx + 1;
+                    }
+                    else
+                    {
+                        html = String.Format("{0}<b>{1}</b>{2}",
+                            html.Substring(0, idx), html.Substring(idx, Highlight.Length), html.Substring(idx + Highlight.Length));
+                        searchFrom = idx + 7 + Highlight.Length;
+                    }
+                    idx = html.IndexOf(Highlight, searchFrom, StringComparison.InvariantCultureIgnoreCase);
                 }
-            }                
+            }
 
             Inlines.Clear();
             HtmlTagTree tree = new HtmlTagTree();
@@ -54,6 +63,40 @@ namespace AqiTechTips
 
             HtmlUpdater updater = new HtmlUpdater(this); //output
             updater.Update(tree);
+        }
+
+        /// <summary>
+        /// Scans from the start of html for &lt;...&gt; / [...] tag spans (mirroring HtmlParser's
+        /// bracket auto-detection) to determine whether index falls inside one, so Highlight
+        /// matches inside tag names/attributes are skipped instead of corrupting the markup.
+        /// </summary>
+        private static bool IsInsideTag(string html, int index)
+        {
+            int pos = 0;
+            while (pos < html.Length)
+            {
+                int angle = html.IndexOf('<', pos);
+                int square = html.IndexOf('[', pos);
+                char openCh = '<', closeCh = '>';
+                if ((square != -1) && ((angle == -1) || (square < angle)))
+                {
+                    openCh = '[';
+                    closeCh = ']';
+                }
+
+                int start = html.IndexOf(openCh, pos);
+                if (start == -1 || start > index)
+                    return false;
+
+                int end = html.IndexOf(closeCh, start);
+                if (end == -1)
+                    return true; //Unterminated tag - treat everything from here on as inside it.
+                if (index <= end)
+                    return index >= start;
+
+                pos = end + 1;
+            }
+            return false;
         }
 
         public static void OnHtmlChanged(DependencyObject s, DependencyPropertyChangedEventArgs e)
