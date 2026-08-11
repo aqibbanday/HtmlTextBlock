@@ -71,6 +71,19 @@ namespace HtmlTextBlock.Tests
         }
 
         [Fact]
+        public void CommentContainingAnApostropheIsSkippedWithoutCorruptingTrailingContent()
+        {
+            // Comments are free text terminated by "-->", not an attribute list; the quote-aware
+            // tag boundary scan must not treat an apostrophe in comment text as an unterminated
+            // quoted value (which would otherwise swallow the rest of the document).
+            var tags = Parse("before<!-- don't touch this -->after");
+            var names = tags.Select(t => t.Name).ToList();
+            Assert.Equal(new[] { "text", "text" }, names);
+            Assert.Equal("before", tags[0]["value"]);
+            Assert.Equal("after", tags[1]["value"]);
+        }
+
+        [Fact]
         public void DoctypeDeclarationIsSkipped()
         {
             var tags = Parse("<!DOCTYPE html>Hello");

@@ -101,7 +101,12 @@ namespace AqiTechTips
             }
 
             Int32 pos1 = input.IndexOf(startBracket, pos);
-            Int32 pos2 = (pos1 == -1) ? -1 : FindTagEnd(input, pos1 + 1, endBracket);
+            //Comments are free text terminated by "-->", not an attribute list - quote-aware
+            //scanning doesn't apply and would misread an apostrophe/quote in the comment text
+            //as an unterminated attribute value. Find their end with a plain bracket search.
+            bool isComment = (pos1 != -1) && (pos1 + 4 <= input.Length) &&
+                (input[pos1 + 1] == '!') && (input[pos1 + 2] == '-') && (input[pos1 + 3] == '-');
+            Int32 pos2 = (pos1 == -1) ? -1 : (isComment ? input.IndexOf(endBracket, pos1 + 1) : FindTagEnd(input, pos1 + 1, endBracket));
 
             if ((pos1 == -1) || (pos2 == -1))
             {
