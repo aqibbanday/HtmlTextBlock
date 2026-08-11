@@ -46,6 +46,11 @@ namespace AqiTechTips
         /// Finds the next occurrence of endBracket starting from start, skipping over any
         /// single- or double-quoted attribute value so a literal endBracket character inside
         /// a quoted value (e.g. title="5 &gt; 3") doesn't end the tag early. Returns -1 if not found.
+        /// A same-quote character inside the value (e.g. an apostrophe in title='it's great')
+        /// only ends the quote when followed by whitespace, endBracket, or '/' (the self
+        /// closing slash, as in src="x.png"/>) - i.e. when it looks like the actual end of
+        /// the attribute value - rather than on the first occurrence, so a mid-value
+        /// apostrophe/quote doesn't end the value early.
         /// </summary>
         private static int FindTagEnd(string input, int start, char endBracket)
         {
@@ -57,7 +62,11 @@ namespace AqiTechTips
                 if (inQuote)
                 {
                     if (c == quoteChar)
-                        inQuote = false;
+                    {
+                        char next = (i + 1 < input.Length) ? input[i + 1] : endBracket;
+                        if ((next == endBracket) || (next == '/') || char.IsWhiteSpace(next))
+                            inQuote = false;
+                    }
                 }
                 else if ((c == '"') || (c == '\''))
                 {

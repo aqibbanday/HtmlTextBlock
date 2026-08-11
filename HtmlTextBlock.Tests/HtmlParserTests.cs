@@ -55,6 +55,14 @@ namespace HtmlTextBlock.Tests
         }
 
         [Fact]
+        public void SelfClosingTagWithQuotedAttributeAndNoSpaceBeforeSlashIsRecognized()
+        {
+            var tags = Parse("before<img src=\"x.png\"/>after");
+            var names = tags.Select(t => t.Name).ToList();
+            Assert.Equal(new[] { "text", "img", "text" }, names);
+        }
+
+        [Fact]
         public void HtmlCommentIsSkipped()
         {
             var tags = Parse("before<!-- a comment -->after");
@@ -107,12 +115,30 @@ namespace HtmlTextBlock.Tests
             Assert.Equal("link", tags.First(t => t.Name == "text")["value"]);
         }
 
-        [Fact]
-        public void UnterminatedQuoteFallsBackToPlainTextInsteadOfCorrupting()
+        [Theory]
+        [InlineData("<div title='it's great'>content</div> after")]
+        [InlineData("<div title=\"it's great\">content</div> after")]
+        public void ApostropheInsideQuotedAttributeValueDoesNotEndTheValueEarly(string html)
         {
+            var tags = Parse(html);
+            var names = tags.Select(t => t.Name).ToList();
+            Assert.Equal(new[] { "div", "text", "/div", "text" }, names);
+            Assert.Equal("content", tags.First(t => t.Name == "text")["value"]);
+        }
+
+        [Fact]
+        public void MalformedNestedQuotesStillFindATagBoundaryWithoutCorruptingTrailingContent()
+        {
+            // A quote that never properly closes (a stray unescaped quote inside the value)
+            // is a pathological case with no unambiguous interpretation; what matters is that
+            // it degrades safely - a tag boundary is still found, and content after the tag
+            // (here "link" and "after") keeps rendering as ordinary text instead of the entire
+            // rest of the document being swallowed into one corrupted text blob.
             var tags = Parse("<a title=\"unterminated quote href=\"https://example.com\">link</a> after");
-            Assert.Single(tags);
-            Assert.Equal("text", tags[0].Name);
+            var names = tags.Select(t => t.Name).ToList();
+            Assert.Equal(new[] { "a", "text", "/a", "text" }, names);
+            Assert.Equal("link", tags.First(t => t.Name == "text")["value"]);
+            Assert.Equal(" after", tags.Last(t => t.Name == "text")["value"]);
         }
 
         [Fact]
