@@ -131,7 +131,7 @@ namespace AqiTechTips
         /// Array Consts
         /// </summary>      
         #region Array Consts
-        public static HTMLTagInfo[] BuiltinTags = new HTMLTagInfo[51] {   
+        public static HTMLTagInfo[] BuiltinTags = new HTMLTagInfo[] {
           #region Built in tag list
            //HtmlTag Level guide
            // 50 Master
@@ -181,16 +181,23 @@ namespace AqiTechTips
            new HTMLTagInfo ("h4",           HTMLFlag.Region,        07),
            new HTMLTagInfo ("h5",           HTMLFlag.Region,        07),
            new HTMLTagInfo ("h6",           HTMLFlag.Region,        07),
-           new HTMLTagInfo ("span",         HTMLFlag.Region,        07),
-           new HTMLTagInfo ("font",         HTMLFlag.TextFormat,    04),           
-           new HTMLTagInfo ("u",            HTMLFlag.TextFormat,    04),           
-           new HTMLTagInfo ("b",            HTMLFlag.TextFormat,    04), 
-           new HTMLTagInfo ("s",            HTMLFlag.TextFormat,    04), 
-           new HTMLTagInfo ("i",            HTMLFlag.TextFormat,    04), 
-           new HTMLTagInfo ("a",            HTMLFlag.TextFormat,    04), 
-           new HTMLTagInfo ("sup",          HTMLFlag.TextFormat,    04), 
-           new HTMLTagInfo ("sub",          HTMLFlag.TextFormat,    04), 
-           new HTMLTagInfo ("strong",       HTMLFlag.TextFormat,    04), 
+           new HTMLTagInfo ("span",         HTMLFlag.TextFormat,    07),
+           new HTMLTagInfo ("font",         HTMLFlag.TextFormat,    04),
+           new HTMLTagInfo ("u",            HTMLFlag.TextFormat,    04),
+           new HTMLTagInfo ("b",            HTMLFlag.TextFormat,    04),
+           new HTMLTagInfo ("s",            HTMLFlag.TextFormat,    04),
+           new HTMLTagInfo ("i",            HTMLFlag.TextFormat,    04),
+           new HTMLTagInfo ("a",            HTMLFlag.TextFormat,    04),
+           new HTMLTagInfo ("sup",          HTMLFlag.TextFormat,    04),
+           new HTMLTagInfo ("sub",          HTMLFlag.TextFormat,    04),
+           new HTMLTagInfo ("strong",       HTMLFlag.TextFormat,    04),
+           new HTMLTagInfo ("em",           HTMLFlag.TextFormat,    04),
+           new HTMLTagInfo ("strike",       HTMLFlag.TextFormat,    04),
+           new HTMLTagInfo ("del",          HTMLFlag.TextFormat,    04),
+           new HTMLTagInfo ("mark",         HTMLFlag.TextFormat,    04),
+           new HTMLTagInfo ("code",         HTMLFlag.TextFormat,    04),
+           new HTMLTagInfo ("small",        HTMLFlag.TextFormat,    04),
+           new HTMLTagInfo ("big",          HTMLFlag.TextFormat,    04),
            new HTMLTagInfo ("color",        HTMLFlag.TextFormat,    04),
            new HTMLTagInfo ("input",        HTMLFlag.Controls,      02), 
            new HTMLTagInfo ("select",       HTMLFlag.Controls,      02), 

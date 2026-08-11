@@ -67,10 +67,17 @@ namespace AqiTechTips
                     if (currentState.SuperScript) retVal.SetValue(Typography.VariantsProperty, FontVariants.Superscript);
                     if (currentState.Bold) retVal = new Bold(retVal);
                     if (currentState.Italic) retVal = new Italic(retVal);
-                    if (currentState.Underline) retVal = new Underline(retVal);
+
+                    List<TextDecoration> decorations = new List<TextDecoration>();
+                    if (currentState.Underline) decorations.AddRange(TextDecorations.Underline);
+                    if (currentState.Strikethrough) decorations.AddRange(TextDecorations.Strikethrough);
+                    if (decorations.Count > 0) retVal.TextDecorations = new TextDecorationCollection(decorations);
 
                     if (currentState.Foreground.HasValue)
                         retVal.Foreground = new SolidColorBrush(currentState.Foreground.Value);
+
+                    if (currentState.Background.HasValue)
+                        retVal.Background = new SolidColorBrush(currentState.Background.Value);
 
                     if (currentState.Font != null)
                         try { retVal.FontFamily = new FontFamily(currentState.Font); }
@@ -78,6 +85,8 @@ namespace AqiTechTips
 
                     if (currentState.FontSize.HasValue)
                         retVal.FontSize = currentState.FontSize.Value;
+                    else if (currentState.FontSizeMultiplier.HasValue)
+                        retVal.FontSize = textBlock.FontSize * currentState.FontSizeMultiplier.Value;
 
                     break;
                 case "br":
