@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net10.0-windows7.0</TargetFramework>
+		<UseWPF>true</UseWPF>
+		<Authors>Aqi Tech Tips</Authors>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<PackageId>AQI.HtmlTextBlock</PackageId>
+		<PackageLicenseExpression></PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/aqibbanday/HtmlTextBlock</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/aqibbanday/HtmlTextBlock</RepositoryUrl>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<PackageTags>HtmlTextBlock</PackageTags>
+		<Title>HtmlTextBlock</Title>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<DebugType>full</DebugType>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<DebugType>pdbonly</DebugType>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="..\LICENSE.md">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
+</Project>
