@@ -13,6 +13,7 @@
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 		<PackageTags>HtmlTextBlock</PackageTags>
 		<Title>HtmlTextBlock</Title>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
 		<DebugType>full</DebugType>
@@ -22,6 +23,10 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="..\LICENSE.md">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="..\README.md">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
