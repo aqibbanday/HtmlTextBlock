@@ -54,9 +54,11 @@ namespace TestApp.WPF
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
-            if (e.OriginalSource is Hyperlink)
+            if (e.OriginalSource is Hyperlink link)
             {
-                MessageBox.Show((e.OriginalSource as Hyperlink).NavigateUri.ToString());
+                // NavigateUri is null when the href couldn't be parsed as a valid Uri
+                // (HtmlUpdater renders the Hyperlink anyway rather than dropping it).
+                MessageBox.Show(link.NavigateUri != null ? link.NavigateUri.ToString() : "(invalid link)");
                 e.Handled = true;
             }
         }

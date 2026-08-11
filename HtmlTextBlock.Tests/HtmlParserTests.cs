@@ -189,5 +189,16 @@ namespace HtmlTextBlock.Tests
             Assert.Equal(500, spanOpenCount);
             Assert.Equal(500, spanCloseCount);
         }
+
+        [Fact]
+        public void TagToStringIncludesActualAttributeValues()
+        {
+            // ToString() previously called Dictionary.ToString(), which just returns the
+            // type name - the library's own debug tree printer (HtmlTagTree.ToString(),
+            // PrintItems()) relies on this to actually show attributes.
+            var tags = Parse("<a href=\"https://example.com\">link</a>");
+            var aTag = tags.First(t => t.Name == "a");
+            Assert.Equal("<a> : href=https://example.com", aTag.ToString());
+        }
     }
 }

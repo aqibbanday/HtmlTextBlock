@@ -66,7 +66,13 @@ namespace AqiTechTips
         ///<summary> Returns the string representation of the value of this instance.  </summary>
 		public override string ToString()
 		{
-			return String.Format("<{0}> : {1}", name, variables.ToString());
+			StringBuilder vars = new StringBuilder();
+			foreach (KeyValuePair<string, string> kv in variables)
+			{
+				if (vars.Length > 0) vars.Append(", ");
+				vars.Append(kv.Key).Append('=').Append(kv.Value);
+			}
+			return String.Format("<{0}> : {1}", name, vars.ToString());
 		}
         
         /// <summary>
