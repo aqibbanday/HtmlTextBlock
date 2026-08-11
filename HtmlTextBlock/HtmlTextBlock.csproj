@@ -1,11 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net10.0-windows7.0</TargetFramework>
+		<TargetFramework>net10.0-windows</TargetFramework>
 		<UseWPF>true</UseWPF>
-		<Authors>Aqi Tech Tips</Authors>
+		<Authors>Aqib</Authors>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<PackageId>AQI.HtmlTextBlock</PackageId>
+		<Version>2.0.0</Version>
 		<PackageLicenseExpression></PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/aqibbanday/HtmlTextBlock</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/aqibbanday/HtmlTextBlock</RepositoryUrl>

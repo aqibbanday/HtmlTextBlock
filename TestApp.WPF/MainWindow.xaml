@@ -1,18 +1,132 @@
-﻿<Window
+<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ht="clr-namespace:AqiTechTips;assembly=HtmlTextBlock"
     x:Class="TestApp.WPF.MainWindow"
-        Title="MainWindow" Height="250" Width="450">
+        Title="HtmlTextBlock - Style Gallery" Height="720" Width="720">
+    <Window.Resources>
+        <Style x:Key="LabelStyle" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Margin" Value="0,10,12,2" />
+            <Setter Property="Foreground" Value="#444" />
+        </Style>
+        <Style x:Key="DemoStyle" TargetType="ht:HtmlTextBlock">
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+    </Window.Resources>
     <DockPanel>
-        <ht:HtmlTextBlock x:Name="htmlTextBlock" HorizontalAlignment="Left" TextWrapping="Wrap" 
-                                     Html="{Binding Text, ElementName=tb}"
-                                     DockPanel.Dock="Top"
-                                     />
-        <TextBlock Text="&lt;b&gt; &lt;i&gt; &lt;u&gt; &lt;a href=xx&gt; &lt;br&gt; supported (legacy [b][/b] square-bracket tags also still work)." DockPanel.Dock="Bottom" />
-        <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"
-            x:Name="tb" Text="The &lt;i&gt;&lt;u&gt;quick brown fox&lt;/u&gt;&lt;/i&gt; jumps over the &lt;b&gt;lazy dog&lt;/b&gt;" />
+        <TextBlock DockPanel.Dock="Bottom" Margin="8,4"
+                   Text="Live editor below: type real &lt;b&gt; HTML tags or legacy [b] square-bracket tags - both work." />
+
+        <Grid DockPanel.Dock="Bottom" Height="120" Margin="8,0,8,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <ht:HtmlTextBlock x:Name="htmlTextBlock" HorizontalAlignment="Left" TextWrapping="Wrap"
+                              Html="{Binding Text, ElementName=tb}" Grid.Row="0" />
+            <TextBox Grid.Row="1" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"
+                x:Name="tb" Text="The &lt;i&gt;&lt;u&gt;quick brown fox&lt;/u&gt;&lt;/i&gt; jumps over the &lt;b&gt;lazy dog&lt;/b&gt;" />
+        </Grid>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="12">
+
+                <TextBlock Text="Every supported tag and style, one example each" FontSize="18" FontWeight="Bold" Margin="0,0,0,8" />
+
+                <TextBlock Text="Bold: &lt;b&gt; / &lt;strong&gt;" Style="{StaticResource LabelStyle}" />
+                <ht:HtmlTextBlock Style="{StaticResource DemoStyle}"
+                    Html="&lt;b&gt;bold&lt;/b&gt; and &lt;strong&gt;strong&lt;/strong&gt; render identically" />
+
+                <TextBlock Text="Italic: &lt;i&gt; / &lt;em&gt;" Style="{StaticResource LabelStyle}" />
+                <ht:HtmlTextBlock Style="{StaticResource DemoStyle}"
+                    Html="&lt;i&gt;italic&lt;/i&gt; and &lt;em&gt;em&lt;/em&gt; render identically" />
+
+                <TextBlock Text="Underline: &lt;u&gt;" Style="{StaticResource LabelStyle}" />
+                <ht:HtmlTextBlock Style="{StaticResource DemoStyle}" Html="&lt;u&gt;underlined text&lt;/u&gt;" />
+
+                <TextBlock Text="Strikethrough: &lt;s&gt; / &lt;strike&gt; / &lt;del&gt;" Style="{StaticResource LabelStyle}" />
+                <ht:HtmlTextBlock Style="{StaticResource DemoStyle}"
+                    Html="&lt;s&gt;s&lt;/s&gt;, &lt;strike&gt;strike&lt;/strike&gt; and &lt;del&gt;del&lt;/del&gt; all strike through" />
+
+                <TextBlock Text="Subscript / Superscript: &lt;sub&gt; / &lt;sup&gt;" Style="{StaticResource LabelStyle}" />
+                <ht:HtmlTextBlock Style="{StaticResource DemoStyle}"
+                    Html="H&lt;sub&gt;2&lt;/sub&gt;O and E=mc&lt;sup&gt;2&lt;/sup&gt;" />
+
+                <TextBlock Text="Highlight: &lt;mark&gt;" Style="{StaticResource LabelStyle}" />
+                <ht:HtmlTextBlock Style="{StaticResource DemoStyle}" Html="Found &lt;mark&gt;3 matches&lt;/mark&gt; for your search" />
+
+                <TextBlock Text="Monospace: &lt;code&gt;" Style="{StaticResource LabelStyle}" />
+                <ht:HtmlTextBlock Style="{StaticResource DemoStyle}" Html="Run &lt;code&gt;dotnet build&lt;/code&gt; to compile" />
+
+                <TextBlock Text="Relative size: &lt;small&gt; / &lt;big&gt;" Style="{StaticResource LabelStyle}" />
+                <ht:HtmlTextBlock Style="{StaticResource DemoStyle}" Html="&lt;small&gt;small text&lt;/small&gt; normal &lt;big&gt;big text&lt;/big&gt;" />
+
+                <TextBlock Text="Legacy attributes: &lt;font color face size&gt;" Style="{StaticResource LabelStyle}" />
+                <ht:HtmlTextBlock Style="{StaticResource DemoStyle}"
+                    Html="&lt;font color=&quot;red&quot; face=&quot;Georgia&quot; size=&quot;18&quot;&gt;colored, custom font, custom size&lt;/font&gt;" />
+
+                <TextBlock Text="Hyperlink: &lt;a href&gt;" Style="{StaticResource LabelStyle}" />
+                <ht:HtmlTextBlock Style="{StaticResource DemoStyle}"
+                    Html="See the &lt;a href=&quot;https://example.com/docs&quot;&gt;docs&lt;/a&gt; for details (click it)" />
+
+                <TextBlock Text="Line break: &lt;br /&gt;" Style="{StaticResource LabelStyle}" />
+                <ht:HtmlTextBlock Style="{StaticResource DemoStyle}" Html="line one&lt;br/&gt;line two" />
+
+                <TextBlock Text="Data binding: &lt;binding path&gt;" Style="{StaticResource LabelStyle}" />
+                <ht:HtmlTextBlock x:Name="bindingDemo" Style="{StaticResource DemoStyle}"
+                    Html="Hello, &lt;binding path=&quot;UserName&quot; /&gt;! You have &lt;binding path=&quot;UnreadCount&quot; /&gt; unread messages." />
+
+                <TextBlock Text="HTML entities: &amp;amp; &amp;lt; &amp;copy; &amp;#65; ..." Style="{StaticResource LabelStyle}" />
+                <ht:HtmlTextBlock Style="{StaticResource DemoStyle}" Html="Tom &amp;amp; Jerry &amp;lt;3 &amp;nbsp;&amp;copy;2026 &amp;#65;&amp;#66;" />
+
+                <TextBlock Text="Legacy square-bracket syntax (still supported): [b]...[/b]" Style="{StaticResource LabelStyle}" />
+                <ht:HtmlTextBlock Style="{StaticResource DemoStyle}" Html="[b]bold[/b] [i]italic[/i] [u]underline[/u] via legacy brackets" />
+
+                <TextBlock Text="style=&quot;...&quot; - color / background-color" Style="{StaticResource LabelStyle}" />
+                <ht:HtmlTextBlock Style="{StaticResource DemoStyle}"
+                    Html="&lt;span style=&quot;color:#3366ff&quot;&gt;custom hex color&lt;/span&gt; and &lt;span style=&quot;background-color:yellow&quot;&gt;highlighted background&lt;/span&gt;" />
+
+                <TextBlock Text="style=&quot;...&quot; - rgb() color function" Style="{StaticResource LabelStyle}" />
+                <ht:HtmlTextBlock Style="{StaticResource DemoStyle}"
+                    Html="&lt;span style=&quot;color: rgb(220, 20, 60)&quot;&gt;crimson via rgb()&lt;/span&gt;" />
+
+                <TextBlock Text="style=&quot;...&quot; - font-weight / font-style" Style="{StaticResource LabelStyle}" />
+                <ht:HtmlTextBlock Style="{StaticResource DemoStyle}"
+                    Html="&lt;span style=&quot;font-weight:bold&quot;&gt;bold via style&lt;/span&gt; and &lt;span style=&quot;font-style:italic&quot;&gt;italic via style&lt;/span&gt;" />
+
+                <TextBlock Text="style=&quot;...&quot; - text-decoration (combinable)" Style="{StaticResource LabelStyle}" />
+                <ht:HtmlTextBlock Style="{StaticResource DemoStyle}"
+                    Html="&lt;span style=&quot;text-decoration:underline line-through&quot;&gt;underline + strikethrough together&lt;/span&gt;" />
+
+                <TextBlock Text="style=&quot;...&quot; - font-family / font-size" Style="{StaticResource LabelStyle}" />
+                <ht:HtmlTextBlock Style="{StaticResource DemoStyle}"
+                    Html="&lt;span style=&quot;font-family:Consolas;font-size:22px&quot;&gt;custom family and size&lt;/span&gt;" />
+
+                <TextBlock Text="style=&quot;...&quot; - every property combined" Style="{StaticResource LabelStyle}" />
+                <ht:HtmlTextBlock Style="{StaticResource DemoStyle}"
+                    Html="&lt;span style=&quot;color:#3366ff;background-color:yellow;font-weight:bold;font-style:italic;text-decoration:underline;font-size:18px&quot;&gt;fully custom, all at once&lt;/span&gt;" />
+
+                <TextBlock Text="Composed / nested tags" Style="{StaticResource LabelStyle}" />
+                <ht:HtmlTextBlock Style="{StaticResource DemoStyle}"
+                    Html="&lt;b&gt;&lt;span style=&quot;color:red&quot;&gt;bold and red&lt;/span&gt;&lt;/b&gt;, &lt;del&gt;$40&lt;/del&gt; &lt;span style=&quot;color:red;font-weight:bold&quot;&gt;$25&lt;/span&gt;" />
+
+                <TextBlock Text="HtmlTextBuilder.StyleWords - per-word rainbow" Style="{StaticResource LabelStyle}" />
+                <ht:HtmlTextBlock x:Name="rainbowDemo" Style="{StaticResource DemoStyle}" />
+
+                <TextBlock Text="HtmlTextBuilder.StyleWords - keyword highlighting" Style="{StaticResource LabelStyle}" />
+                <ht:HtmlTextBlock x:Name="keywordDemo" Style="{StaticResource DemoStyle}" />
+
+                <TextBlock Text="HtmlHighlightTextBlock - auto-bolds a search term" Style="{StaticResource LabelStyle}" />
+                <ht:HtmlHighlightTextBlock TextWrapping="Wrap" FontSize="14"
+                    Html="The quick brown fox jumps over the lazy dog" Highlight="fox" />
+
+                <TextBlock Height="16" />
+            </StackPanel>
+        </ScrollViewer>
     </DockPanel>
-
-
 </Window>
